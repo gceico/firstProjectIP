@@ -17,6 +17,6 @@ Exemplu:
 *edit: 8.12.2016 gceico* 
 **Am initializat fiserul README.md**
 
-
+TEST
 
 
