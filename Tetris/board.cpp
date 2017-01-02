@@ -17,14 +17,14 @@ void Board::InitBoard()
 	}
 }
 
-void Board::StorePiece(int x, int y, int piece, rotation)
+void Board::StorePiece(int x, int y, int piece, int rotation)
 {
 	int i1, i2, j1, j2;
 	for (i1 = x, i2 = 0; i1 < x + PIECE_BLOCKS; i1++, i2++)
 	{
 		for (j1 = y, j2 = 0; j1 < y + PIECE_BLOCKS; j1++, j2++)
 		{
-			if (mPieces->GetBlockType(piece, rotaion, j2, i2) != 0)
+			if (mPieces->GetBlockType(piece, rotation, j2, i2) != 0)
 				mBoard[i1][j1] = POS_FILLED;
 		}
 	}
@@ -41,7 +41,7 @@ bool Board::IsGameOver()
 	return false;
 }
 
-void Board : DeleteLine(int y)
+void Board::DeleteLine(int y)
 {
 	int i, j;
 	for (j = y; j > 0; j--)
@@ -72,7 +72,9 @@ void Board::DeletePossibleLines()
 
 bool Board::IsFreeBlock(int x, int y)
 {
-	if (mBoard[x][y] == PO)
+	if (mBoard[x][y] == POS_FREE)
+		return true;
+	return false;
 }
 
 int Board::GetXPosInPixels(int pos)
@@ -80,7 +82,7 @@ int Board::GetXPosInPixels(int pos)
 	return ((BOARD_POSITION - (BLOCK_SIZE * (BOARD_WIDTH / 2))) + (pos * BLOCK_SIZE));
 }
 
-int Board::GetYPozInPixels(int pos)
+int Board::GetYPosInPixels(int pos)
 {
 	return ((mScreenHeight - (BLOCK_SIZE * BOARD_HEIGHT)) + (pos * BLOCK_SIZE);
 }
@@ -94,13 +96,13 @@ bool Board::IsPossibleMovement(int x, int y, int piece, int rotation)
 		{
 			if (i1 < 0 || i1 > BOARD_WIDTH - 1 || j1 > BOARD_HEIGHT - 1)
 			{
-				if (mPices->GetBlockType(piece, rotation, j2, i2) != 0)
+				if (mPieces->GetBlockType(piece, rotation, j2, i2) != 0)
 					return 0;
 			}
 
 			if (j1 >= 0)
 			{
-				if ((mPices->GetBlockType(piece, rotation, j2, i2) != 0) && (!IsFreeBlock(i1, j1)))
+				if ((mPieces->GetBlockType(piece, rotation, j2, i2) != 0) && (!IsFreeBlock(i1, j1)))
 					return false;
 			}
 		}
