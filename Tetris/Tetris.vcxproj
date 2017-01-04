@@ -70,6 +70,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
