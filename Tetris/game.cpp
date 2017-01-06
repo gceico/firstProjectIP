@@ -20,7 +20,7 @@ void Game::InitGame()
 
 	mPiece = GetRand(0, 6);
 	mRotation = GetRand(0, 3);
-	mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation;
+	mPosX = (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition(mPiece, mRotation);
 	mPosY = mPieces->GetYInitialPosition(mPiece, mRotation);
 
 
@@ -61,11 +61,7 @@ void Game::DrawPiece(int X, int Y, int piece, int rotation)
 
 			if (mPieces->GetBlockType(piece, rotation, j, i) != 0)
 			{
-				mSDL->DrawRectangle(mPixelsX + i * BLOCK_SIZE,
-					mPixelsY + j * BLOCK_SIZE,
-					(mPixelsX + i * BLOCK_SIZE) + BLOCK_SIZE - 1,
-					(mPixelsY + j * BLOCK_SIZE) + BLOCK_SIZE - 1,
-					mColor)
+				mSDL->DrawRectangle(mPixelsX + i * BLOCK_SIZE,mPixelsY + j * BLOCK_SIZE,(mPixelsX + i * BLOCK_SIZE) + BLOCK_SIZE - 1,(mPixelsY + j * BLOCK_SIZE) + BLOCK_SIZE - 1,mColor)
 			}
 		}
 	}
@@ -87,11 +83,7 @@ void Game::DrawBoard()
 		{
 			if (!mBoard->IsFreeBlock(i, j))
 			{
-				mSDL->DrawRectangle(mX1 + i * BLOCK_SIZE,
-					mY + j * BLOCK_SIZE,
-					(mX1 + i * BLOCK_SIZE) + BLOCK_SIZE - 1,
-					(mY + j * BLOCK_SIZE) + BLOCK_SIZE - 1,
-					RED);
+				mSDL->DrawRectangle(mX1 + i * BLOCK_SIZE,mY + j * BLOCK_SIZE,(mX1 + i * BLOCK_SIZE) + BLOCK_SIZE - 1,(mY + j * BLOCK_SIZE) + BLOCK_SIZE - 1,		RED);
 			}
 		}
 	}
