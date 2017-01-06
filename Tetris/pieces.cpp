@@ -1,6 +1,6 @@
 #include "Pieces.h"
 
-char matrixPieces[7][4][5][5] =
+char mPieces[7][4][5][5] =
 {
 	{
 		{
@@ -214,7 +214,7 @@ char matrixPieces[7][4][5][5] =
 	}
 };
 
-int matrixPiecesInitialPosition[7][4][2] =
+int mPiecesInitialPosition[7][4][2] =
 {
 	{
 		{ -2, -3 },
@@ -262,16 +262,16 @@ int matrixPiecesInitialPosition[7][4][2] =
 
 int Pieces::GetBlockType(int positionPiece, int positionRotation, int positionX, int positionY)
 {
-	return matrixPieces[positionPiece][positionRotation][positionX][positionY];
+	return mPieces[positionPiece][positionRotation][positionX][positionY];
 }
 
 int Pieces::GetXInitialPosition(int positionPiece, int positionRotation)
 {
-	return matrixPiecesInitialPosition[positionPiece][positionRotation][0];
+	return mPiecesInitialPosition[positionPiece][positionRotation][0];
 }
 
 int Pieces::GetYInitialPosition(int positionPiece, int positionRotation)
 {
-	return matrixPiecesInitialPosition[positionPiece][positionRotation][1];
+	return mPiecesInitialPosition[positionPiece][positionRotation][1];
 }
 
