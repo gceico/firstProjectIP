@@ -27,4 +27,29 @@ int main()
 				mGame.mPosX++;
 			break;
 		}
-		
+		case (SDLK_LEFT):
+		{
+			if (mBoard.IsPossibleMovement(mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+				mGame.mPosX--;
+			break;
+		}
+		case (SDLK_DOWN):
+		{
+			if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
+				mGame.mPosY++;
+			break;
+		}
+		case (SDLK_x):
+		{
+			while (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation)) {
+				mGame.mPosY++;
+			}
+			mBoard.StorePiece(mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
+			mBoard.DeletePossibleLines();
+			if (mBoard.IsGameOver()){
+				mSDL.Getkey();
+				exit(0);
+			}
+			mGame.CreateNewPiece();
+			break;
+		}
