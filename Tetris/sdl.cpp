@@ -11,7 +11,7 @@ void SDL::ClearScreen() {
 	boxColor(mScreen, 0, 0, mScreen->w - 1, mScreen->h - 1, mColors[BLACK]);
 }
 
-void SDL::DrawRectangle(int pX1, int pY1, int pX2, ) {
+void SDL::DrawRectangle(int pX1, int pY1, int pX2, int pY2, enum color pC) {
 	boxColor(mScreen, pX1, pY1, pX2, pY2 - 1, mColors[pC]);
 }
 
@@ -56,7 +56,7 @@ int SDL::IsKeyDown(int pKey) {
 	return mKeytable[pKey];
 }
 
-intSDL::InitGraph() {
+int SDL::InitGraph() {
 	const SDL_VideoInfo *info;
 	Uint8 video_bpp;
 	Uint32 videoflags;
