@@ -46,10 +46,37 @@ int main()
 			}
 			mBoard.StorePiece(mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
 			mBoard.DeletePossibleLines();
-			if (mBoard.IsGameOver()){
+			if (mBoard.IsGameOver()) {
 				mSDL.Getkey();
 				exit(0);
 			}
 			mGame.CreateNewPiece();
 			break;
 		}
+		case (SDLK_z):
+		{
+			if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, (mGame.mRotation + 1) % 4))
+				mGame.mRotation = (mGame.mRotation + 1) % 4;
+			break;
+		}
+		}
+		unsigned long mTime2 = SDL_GetTicks();
+		if ((mTime2 - mTime1) > WAIT_TIME)
+		{
+			if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation)) {
+				mGame.mPosY++;
+			}
+			else {
+				mBoard.StorePiece(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
+				mBoard.DeletePossibleLines();
+				if (mBoard.IsGameOver()) {
+					mSDL.Getkey();
+					exit(0);
+				}
+				mGame.CreateNewPiece();
+			}
+			mTime1 = SDL_GetTicks();
+		}
+	}
+	return 0;
+}
