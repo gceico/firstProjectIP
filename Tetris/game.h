@@ -1,9 +1,9 @@
 #ifndef _GAME_
 #define _GAME_
 
-#include "Board.h"
-#include "Pieces.h"
-#include "SDL.h"
+#include "board.h"
+#include "pieces.h"
+#include "sdl.h"
 #include <time.h>
 
 #define WAIT_TIME 700
@@ -15,8 +15,8 @@ public:
 
 	Game(Board *pBoard, Pieces *pPieces, SDL *pSDL, int pScreenHeight);
 
-	void DrawScene();
-	void CreateNewPiece();
+	void DrawScene ();
+	void CreateNewPiece ();
 
 	int mPosX, mPosY;
 	int mPiece, mRotation;
@@ -28,16 +28,15 @@ private:
 	int mScreenHeight;
 	int mNextPosX, mNextPosY;
 	int mNextPiece, mNextRotation;
-
-
+	
 	Board *mBoard;
 	Pieces *mPieces;
 	SDL *mSDL;
 
-	int GetRand(int A, int B);
+	int GetRand (int pA, int pB);
 	void InitGame();
-	void DrawPiece(int X, int Y, int Piece, int Rotation, int Color);
-	void DrawBoard();
+	void DrawPiece (int pX, int pY, int pPiece, int pRotation, int pColor);
+	void DrawBoard ();
 };
 
 #endif 

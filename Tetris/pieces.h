@@ -5,9 +5,9 @@ class Pieces
 {
 public:
 
-	int GetBlockType(int positionPiece, int positionRotation, int positionX, int positionY);
-	int GetXInitialPosition(int positionPiece, int positionRotation);
-	int GetYInitialPosition(int positionPiece, int positionRotation);
+	int GetBlockType		(int pPiece, int pRotation, int pX, int pY);
+	int GetXInitialPosition (int pPiece, int pRotation);
+	int GetYInitialPosition (int pPiece, int pRotation);
 };
 
-#endif 
+#endif
