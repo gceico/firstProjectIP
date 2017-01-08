@@ -20,5 +20,3 @@
     slouken@libsdl.org
 */
 
-/* DEPRECATED */
-#include "SDL_stdinc.h"

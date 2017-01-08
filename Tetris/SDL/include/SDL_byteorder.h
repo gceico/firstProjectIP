@@ -21,4 +21,4 @@
 */
 
 /* DEPRECATED */
-#include "SDL_stdinc.h"
+#include "SDL_endian.h"

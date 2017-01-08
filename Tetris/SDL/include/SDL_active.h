@@ -20,12 +20,13 @@
     slouken@libsdl.org
 */
 
-/* Simple error message routines for SDL */
+/* Include file for SDL application focus event handling */
 
-#ifndef _SDL_error_h
-#define _SDL_error_h
+#ifndef _SDL_active_h
+#define _SDL_active_h
 
 #include "SDL_stdinc.h"
+#include "SDL_error.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
@@ -33,23 +34,19 @@
 extern "C" {
 #endif
 
-/* Public functions */
-extern DECLSPEC void SDLCALL SDL_SetError(const char *fmt, ...);
-extern DECLSPEC char * SDLCALL SDL_GetError(void);
-extern DECLSPEC void SDLCALL SDL_ClearError(void);
+/* The available application states */
+#define SDL_APPMOUSEFOCUS	0x01		/* The app has mouse coverage */
+#define SDL_APPINPUTFOCUS	0x02		/* The app has input focus */
+#define SDL_APPACTIVE		0x04		/* The application is active */
 
-/* Private error message function - used internally */
-#define SDL_OutOfMemory()	SDL_Error(SDL_ENOMEM)
-#define SDL_Unsupported()	SDL_Error(SDL_UNSUPPORTED)
-typedef enum {
-	SDL_ENOMEM,
-	SDL_EFREAD,
-	SDL_EFWRITE,
-	SDL_EFSEEK,
-	SDL_UNSUPPORTED,
-	SDL_LASTERROR
-} SDL_errorcode;
-extern DECLSPEC void SDLCALL SDL_Error(SDL_errorcode code);
+/* Function prototypes */
+/* 
+ * This function returns the current state of the application, which is a
+ * bitwise combination of SDL_APPMOUSEFOCUS, SDL_APPINPUTFOCUS, and
+ * SDL_APPACTIVE.  If SDL_APPACTIVE is set, then the user is able to
+ * see your application, otherwise it has been iconified or disabled.
+ */
+extern DECLSPEC Uint8 SDLCALL SDL_GetAppState(void);
 
 
 /* Ends C function definitions when using C++ */
@@ -58,4 +55,4 @@ extern DECLSPEC void SDLCALL SDL_Error(SDL_errorcode code);
 #endif
 #include "close_code.h"
 
-#endif /* _SDL_error_h */
+#endif /* _SDL_active_h */
