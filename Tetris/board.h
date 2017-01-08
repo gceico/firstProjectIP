@@ -25,7 +25,7 @@ public:
 	int GetXPosInPixels(int pPos);
 	int GetYPosInPixels(int pPos);
 	bool IsFreeBlock(int pX, int pY);
-	bool IsPossibleMovement(int pX, int pPiece, int pRotation);
+	bool IsPossibleMovement(int pX,int pY, int pPiece, int pRotation);
 	void StorePiece(int pX, int pY, int pPiece, int pRotation);
 	void DeletePossibleLines();
 	bool IsGameOver();
