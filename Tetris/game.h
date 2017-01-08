@@ -8,15 +8,20 @@
 
 #define WAIT_TIME 700
 
-class Game {
+//Game
+class Game
+{
 public:
 
 	Game(Board *pBoard, Pieces *pPieces, SDL *pSDL, int pScreenHeight);
+
 	void DrawScene();
 	void CreateNewPiece();
 
 	int mPosX, mPosY;
 	int mPiece, mRotation;
+	int mColor;
+
 
 private:
 
@@ -24,14 +29,15 @@ private:
 	int mNextPosX, mNextPosY;
 	int mNextPiece, mNextRotation;
 
+
 	Board *mBoard;
 	Pieces *mPieces;
 	SDL *mSDL;
 
-	int GetRand(int pA, int pB);
+	int GetRand(int A, int B);
 	void InitGame();
-	void DrawPiece(int pX, int pY, int pPiece, int pRotation);
+	void DrawPiece(int X, int Y, int Piece, int Rotation, int Color);
 	void DrawBoard();
 };
 
-#endif
+#endif 

@@ -23,6 +23,15 @@
     <ClInclude Include="pieces.h" />
     <ClInclude Include="sdl.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\background.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\font.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\score.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CD557E9A-F6DB-4153-8AE0-D5A1C55330E6}</ProjectGuid>
     <RootNamespace>Tetris</RootNamespace>
