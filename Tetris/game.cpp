@@ -27,8 +27,8 @@ void Game::InitGame()
 	mRotation		= GetRand (0, 3);
 	mPosX 			= (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition (mPiece, mRotation);
 	mPosY 			= mPieces->GetYInitialPosition (mPiece, mRotation);
-	mColor			= GetRand(2, 5);
-
+	mColor = GetRand(2, 5);;
+	mNextColor = GetRand(2, 5);
 	mNextPiece 		= GetRand (0, 6);
 	mNextRotation 	= GetRand (0, 3);
 	mNextPosX 		= BOARD_WIDTH + 5;
@@ -42,7 +42,8 @@ void Game::CreateNewPiece()
 	mRotation		= mNextRotation;
 	mPosX 			= (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition (mPiece, mRotation);
 	mPosY 			= mPieces->GetYInitialPosition (mPiece, mRotation);
-	mColor			= GetRand(2, 5);
+	mColor			= mNextColor;
+	mNextColor		= GetRand(2, 5);
 	mNextPiece 		= GetRand (0, 6);
 	mNextRotation 	= GetRand (0, 3);
 }
@@ -113,5 +114,5 @@ void Game::DrawScene ()
 	DrawBoard ();
 	
 	DrawPiece(mPosX, mPosY, mPiece, mRotation, mColor);
-	DrawPiece(mNextPosX, mNextPosY, mNextPiece, mNextRotation, mColor);
+	DrawPiece(mNextPosX, mNextPosY, mNextPiece, mNextRotation, mNextColor);
 }

@@ -2,17 +2,11 @@
 #include <string>
 using namespace std;
 
-static SDL_Surface *mScreen;
+
 static Uint32 mColors [COLOR_MAX] = {0x000000ff, 0xffffffff, 0xed2d0eff, 0x0fe00fff, 0x097bdcff, 0xd1d80fff, 0x090431ff};
 
 //Aditional surfaces
 SDL_Surface *background = NULL;
-SDL_Surface *scoreS = NULL;
-SDL_Surface	*highScoreS = NULL;
-
-//Font
-TTF_Font *font = NULL;
-SDL_Color textColor = {0, 0, 0};
 
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
@@ -24,13 +18,24 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 	SDL_BlitSurface(source, NULL, destination, &offset);
 }
 
+
 //init
 SDL::SDL() 
 {
 	InitGraph ();
 }
 
-							
+void SDL::DrawString(int x, int y, char text[], TTF_Font *font, SDL_Color color)
+{
+	SDL_Surface *source = NULL;
+	source = TTF_RenderText_Solid(font, text, color);
+	if (source == NULL)
+		return;
+
+	apply_surface(x, y, source, mScreen);
+
+}
+
 //Clear the screen
 void SDL::ClearScreen() 
 {
@@ -128,18 +133,11 @@ int SDL::InitGraph()
 	else
 		apply_surface(0, 0, background, mScreen);
 
-	font = TTF_OpenFont("Resources/font.ttf", 3);
-	if (font == NULL)
-	{
-		return 2;
-	}
-
-	scoreS = TTF_RenderText_Solid(font, "ACEST FONT", textColor);
-
-	if (scoreS == NULL)
-		return 2;
-	else
-		apply_surface(0, 0, scoreS, mScreen);
-
+	fontTitle = TTF_OpenFont("Resources/textFont.ttf", 36);
+	fontHScor = TTF_OpenFont("Resources/textFont.ttf", 40);
+	fontScor = TTF_OpenFont("Resources/textFont.ttf", 42);
+	fontSpecial = TTF_OpenFont("Resources/specialFont.ttf", 80);
+	textColor = { 32, 32, 32 };
+	specialColor = { 255, 255, 255 };
     return 0;
 }

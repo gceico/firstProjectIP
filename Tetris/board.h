@@ -7,7 +7,7 @@
 #define BOARD_WIDTH 10
 #define BOARD_HEIGHT 20
 #define PIECE_BLOCKS 5
-#define TOP_SCORES 10
+#define TOP_SCORES 5
 
 class Board
 {

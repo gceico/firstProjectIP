@@ -20,7 +20,7 @@ public:
 
 	int mPosX, mPosY;
 	int mPiece, mRotation;
-	int mColor;
+	int mColor, mNextColor;
 
 
 private:

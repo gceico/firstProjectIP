@@ -27,6 +27,7 @@ class SDL
 public:
 
 	SDL						();
+	void DrawString			(int x, int y, char text[], TTF_Font *font, SDL_Color color);
 	void DrawRectangle		(int pX1, int pY1, int pX2, int pY2, enum color pC);
 	void ClearScreen		();
 	int GetScreenHeight		();
@@ -35,6 +36,14 @@ public:
 	int Getkey				();
 	int IsKeyDown			(int pKey);
 	void UpdateScreen		();
+
+	SDL_Surface *mScreen;
+	TTF_Font *fontTitle;
+	TTF_Font *fontHScor;
+	TTF_Font *fontScor;
+	TTF_Font *fontSpecial;
+	SDL_Color textColor;
+	SDL_Color specialColor;
 };
 
 #endif
