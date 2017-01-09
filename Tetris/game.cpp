@@ -23,28 +23,26 @@ void Game::InitGame()
 {
 	srand ((unsigned int) time(NULL));
 
-	mColor			= GetRand(2, 5);
 	mPiece			= GetRand (0, 6);
 	mRotation		= GetRand (0, 3);
 	mPosX 			= (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition (mPiece, mRotation);
 	mPosY 			= mPieces->GetYInitialPosition (mPiece, mRotation);
-
 	mColor			= GetRand(2, 5);
+
 	mNextPiece 		= GetRand (0, 6);
 	mNextRotation 	= GetRand (0, 3);
 	mNextPosX 		= BOARD_WIDTH + 5;
 	mNextPosY 		= 5;	
 }
-							
+
 //Create a piece
 void Game::CreateNewPiece()
 {
-	mColor			= GetRand(2, 5);
 	mPiece			= mNextPiece;
 	mRotation		= mNextRotation;
 	mPosX 			= (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition (mPiece, mRotation);
 	mPosY 			= mPieces->GetYInitialPosition (mPiece, mRotation);
-
+	mColor			= GetRand(2, 5);
 	mNextPiece 		= GetRand (0, 6);
 	mNextRotation 	= GetRand (0, 3);
 }
@@ -61,7 +59,7 @@ void Game::DrawPiece (int pX, int pY, int pPiece, int pRotation, int pColor)
 	{
 		for (int j = 0; j < PIECE_BLOCKS; j++)
 		{
-			switch (mColor)
+			switch (pColor)
 			{
 			case 2: trueColor = RED;
 				break;
@@ -113,6 +111,7 @@ void Game::DrawBoard ()
 void Game::DrawScene ()
 {
 	DrawBoard ();
-	DrawPiece (mPosX, mPosY, mPiece, mRotation, mColor);
-	DrawPiece (mNextPosX, mNextPosY, mNextPiece, mNextRotation, mColor);
+	
+	DrawPiece(mPosX, mPosY, mPiece, mRotation, mColor);
+	DrawPiece(mNextPosX, mNextPosY, mNextPiece, mNextRotation, mColor);
 }

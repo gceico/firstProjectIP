@@ -67,7 +67,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 					mSDL.Getkey();
 					exit(0);
 				}
-
+				
 				mGame.CreateNewPiece();
 
 				break;
