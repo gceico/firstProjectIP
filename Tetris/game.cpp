@@ -71,12 +71,8 @@ void Game::DrawPiece (int pX, int pY, int pPiece, int pRotation, int pColor)
 			case 5: trueColor = YELLOW;
 			}
 			
-			if (mPieces->GetBlockType (pPiece, pRotation, j, i) != 0)
-				mSDL->DrawRectangle	(mPixelsX + i * BLOCK_SIZE, 
-									mPixelsY + j * BLOCK_SIZE, 
-									(mPixelsX + i * BLOCK_SIZE) + BLOCK_SIZE - 1, 
-									(mPixelsY + j * BLOCK_SIZE) + BLOCK_SIZE - 1, 
-									trueColor);
+			if (mPieces->GetBlockType(pPiece, pRotation, j, i) != 0)
+				mSDL->DrawRectangle(mPixelsX + i * BLOCK_SIZE, mPixelsY + j * BLOCK_SIZE, (mPixelsX + i * BLOCK_SIZE) + BLOCK_SIZE - 1, (mPixelsY + j * BLOCK_SIZE) + BLOCK_SIZE - 1, trueColor);
 		}
 	}
 }
@@ -97,12 +93,8 @@ void Game::DrawBoard ()
 		for (int j = 0; j < BOARD_HEIGHT; j++)
 		{	
 			//filled or not
-			if (!mBoard->IsFreeBlock(i, j))	
-				mSDL->DrawRectangle (	mX1 + i * BLOCK_SIZE, 
-										mY + j * BLOCK_SIZE, 
-										(mX1 + i * BLOCK_SIZE) + BLOCK_SIZE - 1, 
-										(mY + j * BLOCK_SIZE) + BLOCK_SIZE - 1, 
-										DARKBLUE);
+			if (!mBoard->IsFreeBlock(i, j))
+				mSDL->DrawRectangle(mX1 + i * BLOCK_SIZE, mY + j * BLOCK_SIZE, (mX1 + i * BLOCK_SIZE) + BLOCK_SIZE - 1, (mY + j * BLOCK_SIZE) + BLOCK_SIZE - 1, DARKBLUE);
 		}
 	}	
 }
