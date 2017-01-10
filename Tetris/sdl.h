@@ -38,6 +38,15 @@ public:
 	void UpdateScreen		();
 
 	SDL_Surface *mScreen;
+	SDL_Surface *background;
+	SDL_Surface *menu;
+	SDL_Surface *leaderBoard;
+	SDL_Surface *playAgain;
+	SDL_Surface	*exitGame;
+
+	void DrawMenu();
+	void DrawLeaderBoard();
+
 	TTF_Font *fontTitle;
 	TTF_Font *fontHScor;
 	TTF_Font *fontScor;
@@ -46,7 +55,6 @@ public:
 	SDL_Color specialColor;
 
 	Mix_Music *music = NULL;
-
 	Mix_Chunk *rotateS = NULL;
 	Mix_Chunk *dropS = NULL;
 	Mix_Chunk *moveS = NULL;

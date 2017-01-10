@@ -47,7 +47,7 @@ extern "C"
 	{
 	}
  */
-#define main	SDL_main
+#define mainSDL	SDL_main
 
 /* The prototype for the application's main() function */
 extern C_LINKAGE int SDL_main(int argc, char *argv[]);

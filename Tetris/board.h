@@ -2,6 +2,7 @@
 #define _BOARD_
 
 #include "pieces.h"
+#include <fstream>
 #define BLOCK_SIZE 16
 #define BOARD_POSITION 320
 #define BOARD_WIDTH 10

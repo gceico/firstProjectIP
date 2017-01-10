@@ -23,6 +23,7 @@ void Game::InitGame()
 {
 	srand ((unsigned int) time(NULL));
 
+	mGameState      = 0;
 	mPiece			= GetRand (0, 6);
 	mRotation		= GetRand (0, 3);
 	mPosX 			= (BOARD_WIDTH / 2) + mPieces->GetXInitialPosition (mPiece, mRotation);

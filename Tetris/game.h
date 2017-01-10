@@ -7,7 +7,7 @@
 #include <time.h>
 
 #define WAIT_TIME 700
-
+enum gameState { MENU, PLAY, LEADER };
 //Game
 class Game
 {
@@ -21,20 +21,19 @@ public:
 	int mPosX, mPosY;
 	int mPiece, mRotation;
 	int mColor, mNextColor;
-
+	int mGameState;
 
 private:
 
 	int mScreenHeight;
 	int mNextPosX, mNextPosY;
 	int mNextPiece, mNextRotation;
-	
+	void InitGame();
 	Board *mBoard;
 	Pieces *mPieces;
 	SDL *mSDL;
 
 	int GetRand (int pA, int pB);
-	void InitGame();
 	void DrawPiece (int pX, int pY, int pPiece, int pRotation, int pColor);
 	void DrawBoard ();
 };

@@ -105,6 +105,19 @@ int SDL::IsKeyDown (int pKey)
 	return mKeytable[pKey];
 }
 
+//Menu
+void SDL::DrawMenu()
+{
+	apply_surface(0, 0, menu, mScreen);
+	UpdateScreen();
+}
+
+void SDL::DrawLeaderBoard()
+{
+	apply_surface(0, 0, leaderBoard, mScreen);
+	UpdateScreen();
+}
+
 //sounds
 int SDL::playEffect(Mix_Chunk *effect)
 {
@@ -164,6 +177,9 @@ int SDL::InitGraph()
 	}
 
 	background = SDL_LoadBMP("Resources/background.bmp");
+	menu = SDL_LoadBMP("Resources/menu.bmp");
+	playAgain = SDL_LoadBMP("Resources/playagain.bmp");
+	exitGame = SDL_LoadBMP("Resources/exitgame.bmp");
 
 	//Sound init
 	music = Mix_LoadMUS("SFX/music.wav");
@@ -182,7 +198,7 @@ int SDL::InitGraph()
 	textColor = { 32, 32, 32 };
 	specialColor = { 255, 255, 255 };
 
-	if (background == NULL)
+	if (background == NULL || menu == NULL || playAgain == NULL || exitGame == NULL)
 		return 2;
 
 	if (dropS == NULL || lineS == NULL || gameoverS == NULL || moveS == NULL ||
