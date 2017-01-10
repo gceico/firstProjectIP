@@ -7,6 +7,7 @@
 #include <time.h>
 
 #define WAIT_TIME 700
+#define WAIT_FPS 50
 enum gameState { MENU, PLAY, LEADER };
 //Game
 class Game

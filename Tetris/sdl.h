@@ -50,6 +50,7 @@ public:
 	TTF_Font *fontTitle;
 	TTF_Font *fontHScor;
 	TTF_Font *fontScor;
+	TTF_Font *fontLeader;
 	TTF_Font *fontSpecial;
 	SDL_Color textColor;
 	SDL_Color specialColor;

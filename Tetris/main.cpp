@@ -38,73 +38,85 @@ void RUN()
 	while (!mSDL.IsKeyDown(SDLK_ESCAPE))
 	{
 		//MENU STATE
-		while (mGame.mGameState == MENU)
+		if (mGame.mGameState == MENU)
 		{
 			mSDL.DrawMenu();
-			int mKeyMenu = mSDL.Pollkey();
-			switch (mKeyMenu)
+			while (mGame.mGameState == MENU)
 			{
-			case (SDLK_s):
-			{
-				mSDL.musicOnOff();
-				break;
+				int mKeyMenu = mSDL.Pollkey();
+				switch (mKeyMenu)
+				{
+				case (SDLK_s) :
+				{
+								  mSDL.musicOnOff();
+								  break;
+				}
+				case (SDLK_r) :
+				{
+								  RUN();
+								  break;
+				}
+				case(SDLK_p) :
+				{
+								 mGame.mGameState = PLAY;
+								 break;
+				}
+				case(SDLK_l) :
+				{
+								 mGame.mGameState = LEADER;
+								 break;
+				}
+				case(SDLK_ESCAPE) :
+				{
+								exit(0);
+								break;
+				}
+				}
 			}
-			case (SDLK_r):
-			{
-				RUN();
-				break;
-			}
-			case(SDLK_p):
-			{
-				mGame.mGameState = PLAY;
-				break;
-			}
-			case(SDLK_l):
-			{
-				mGame.mGameState = LEADER;
-				break;
-			}
-			default:
-			{
-				mGame.mGameState = MENU;
-				break;
-			}
-			}
-
 		}
 
 		//LEADER STATE
-		while (mGame.mGameState == LEADER)
+		if (mGame.mGameState == LEADER)
 		{
 			mSDL.DrawLeaderBoard();
-			int mKeyLeader = mSDL.Pollkey();
-			switch (mKeyLeader)
+			yPosHS = 140;
+			for (int i = 0; i < TOP_SCORES; i++)
 			{
-			case (SDLK_s):
-			{
-				mSDL.musicOnOff();
-				break;
+				int sprintInt = sprintf_s(highScore, "%d", mBoard.highScore[i]);
+				mSDL.DrawString(352, yPosHS, highScore, mSDL.fontLeader, mSDL.textColor);
+				if (i < TOP_SCORES - 1)
+					yPosHS += 60;
+				else
+					yPosHS = 140;
+
 			}
-			case (SDLK_r):
+			mSDL.UpdateScreen();
+			while (mGame.mGameState == LEADER)
 			{
-				RUN();
-				break;
-			}
-			case(SDLK_p):
-			{
-				mGame.mGameState = PLAY;
-				break;
-			}
-			case(SDLK_m):
-			{
-				mGame.mGameState = MENU;
-				break;
-			}
-			default:
-			{
-				mGame.mGameState = LEADER;
-				break;
-			}
+				int mKeyLeader = mSDL.Pollkey();
+				switch (mKeyLeader)
+				{
+				case (SDLK_s) :
+				{
+								  mSDL.musicOnOff();
+								  break;
+				}
+				case(SDLK_p) :
+				{
+								 mGame.mGameState = PLAY;
+								 break;
+				}
+				case(SDLK_m) :
+				{
+								 mGame.mGameState = MENU;
+								 break;
+				}
+				case(SDLK_ESCAPE) :
+				{
+								exit(0);
+								break;
+				}
+				}
 			}
 		}
 
@@ -135,101 +147,113 @@ void RUN()
 
 			switch (mKey)
 			{
-			case (SDLK_s):
-			{
-				mSDL.musicOnOff();
-				break;
-			}
-			case (SDLK_m):
-			{
-				mGame.mGameState = MENU;
-				break;
-			}
-			case (SDLK_RIGHT):
-			{
-				if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+				case (SDLK_s):
 				{
-					mGame.mPosX++;
-					mSDL.playEffect(mSDL.moveS);
-				}
-				break;
-			}
-			case (SDLK_LEFT):
-			{
-				if (mBoard.IsPossibleMovement(mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
-				{
-					mGame.mPosX--;
-					mSDL.playEffect(mSDL.moveS);
-				}
-				break;
-			}
-			case (SDLK_DOWN):
-			{
-				if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
-				{
-					mGame.mPosY++;
-					mSDL.playEffect(mSDL.moveS);
-				}
-				break;
-			}
-			case (SDLK_x):
-			{
-				mSDL.playEffect(mSDL.dropS);
-				// Check collision from up to down
-				while (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation))
-				{
-					mGame.mPosY++;
-				}
-
-				mBoard.StorePiece(mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
-
-				if (mBoard.DeletePossibleLines())
-				{
-					mSDL.playEffect(mSDL.lineS);
-				}
-
-				if (mBoard.IsGameOver())
-				{
-					mTime3 = SDL_GetTicks();
-					mSDL.DrawString(100, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
-					mSDL.UpdateScreen();
 					mSDL.musicOnOff();
-					mSDL.playEffect(mSDL.gameoverS);
-
-					while (!mSDL.IsKeyDown(SDLK_ESCAPE))
-					{
-						int mKeyOver = mSDL.Pollkey();
-						switch (mKeyOver)
-						{
-						case(SDLK_r):
-						{
-							RUN();
-							break;
-						}
-						}
-					}
-					mSDL.Getkey();
-					exit(0);
+					break;
 				}
-
-				mGame.CreateNewPiece();
-				break;
-			}
-
-			case (SDLK_z):
-			{
-				if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, (mGame.mRotation + 1) % 4))
+				case (SDLK_m):
 				{
-					mSDL.playEffect(mSDL.rotateS);
-					mGame.mRotation = (mGame.mRotation + 1) % 4;
+					mGame.mGameState = MENU;
+					break;
 				}
-				break;
-			}
+				case (SDLK_RIGHT):
+				{
+					if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+					{
+						mGame.mPosX++;
+						mSDL.playEffect(mSDL.moveS);
+					}
+					break;
+				}
+				case (SDLK_LEFT):
+				{
+					if (mBoard.IsPossibleMovement(mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+					{
+						mGame.mPosX--;
+						mSDL.playEffect(mSDL.moveS);
+					}
+					break;
+				}
+				case (SDLK_DOWN):
+				{
+					if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
+					{
+						mGame.mPosY++;
+						mSDL.playEffect(mSDL.moveS);
+					}
+					break;
+				}
+				case (SDLK_x):
+				{
+					mSDL.playEffect(mSDL.dropS);
+					// Check collision from up to down
+					while (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+					{
+						mGame.mPosY++;
+					}
+
+					mBoard.StorePiece(mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
+
+					if (mBoard.DeletePossibleLines())
+					{
+						mSDL.playEffect(mSDL.lineS);
+					}
+
+					if (mBoard.IsGameOver())
+					{
+						mTime3 = SDL_GetTicks();
+						mSDL.DrawString(100, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
+						mSDL.UpdateScreen();
+						mSDL.musicOnOff();
+						mSDL.playEffect(mSDL.gameoverS);
+
+						while (!mSDL.IsKeyDown(SDLK_ESCAPE))
+						{
+							int mKeyOver = mSDL.Pollkey();
+							switch (mKeyOver)
+							{
+							case(SDLK_r):
+							{
+								RUN();
+								break;
+							}
+							}
+						}
+						mSDL.Getkey();
+						exit(0);
+					}
+
+					mGame.CreateNewPiece();
+					break;
+				}
+
+				case (SDLK_z):
+				{
+					if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, (mGame.mRotation + 1) % 4))
+					{
+						mSDL.playEffect(mSDL.rotateS);
+						mGame.mRotation = (mGame.mRotation + 1) % 4;
+					}
+					break;
+				}
+				case(SDLK_ESCAPE) :
+				{
+					mBoard.updateScore();
+					mBoard.updateFile();
+					exit(0);
+					break;
+				}
 			}
 
 			//Vertical movement
-
 			unsigned long mTime2 = SDL_GetTicks();
+
+			while ((mTime2 - mTime1) < WAIT_FPS)
+			{
+				mTime2 = SDL_GetTicks();
+			}
+			
 
 			if ((mTime2 - mTime1) > WAIT_TIME)
 			{
@@ -277,13 +301,6 @@ void RUN()
 				mTime1 = SDL_GetTicks();
 			}
 		}
-	}
-
-	//Check for ESC quit
-	if (!mBoard.IsGameOver())
-	{
-		mBoard.updateScore();
-		mBoard.updateFile();
 	}
 }
 

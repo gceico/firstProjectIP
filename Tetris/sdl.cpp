@@ -176,11 +176,13 @@ int SDL::InitGraph()
 		return 2;
 	}
 
+	
+
 	background = SDL_LoadBMP("Resources/background.bmp");
 	menu = SDL_LoadBMP("Resources/menu.bmp");
 	playAgain = SDL_LoadBMP("Resources/playagain.bmp");
 	exitGame = SDL_LoadBMP("Resources/exitgame.bmp");
-
+	leaderBoard = SDL_LoadBMP("Resources/leaderboard.bmp");
 	//Sound init
 	music = Mix_LoadMUS("SFX/music.wav");
 	dropS = Mix_LoadWAV("SFX/drop.wav");
@@ -195,6 +197,7 @@ int SDL::InitGraph()
 	fontHScor = TTF_OpenFont("Resources/textFont.ttf", 40);
 	fontScor = TTF_OpenFont("Resources/textFont.ttf", 42);
 	fontSpecial = TTF_OpenFont("Resources/specialFont.ttf", 80);
+	fontLeader = TTF_OpenFont("Resources/textFont.ttf",65);
 	textColor = { 32, 32, 32 };
 	specialColor = { 255, 255, 255 };
 
@@ -205,7 +208,7 @@ int SDL::InitGraph()
 		gamestartS == NULL || rotateS == NULL || music == NULL)
 		return 2;
 	
-	if (fontTitle == NULL || fontHScor == NULL || fontScor == NULL || fontSpecial == NULL)
+	if (fontTitle == NULL || fontHScor == NULL || fontScor == NULL || fontSpecial == NULL || fontLeader == NULL)
 		return 2;
 
 	apply_surface(0, 0, background, mScreen);
