@@ -44,6 +44,17 @@ public:
 	TTF_Font *fontSpecial;
 	SDL_Color textColor;
 	SDL_Color specialColor;
+
+	Mix_Music *music = NULL;
+
+	Mix_Chunk *rotateS = NULL;
+	Mix_Chunk *dropS = NULL;
+	Mix_Chunk *moveS = NULL;
+	Mix_Chunk *lineS = NULL;
+	Mix_Chunk *gameoverS = NULL;
+	Mix_Chunk *gamestartS = NULL;
+	int playEffect(Mix_Chunk *effect);
+	int musicOnOff();
 };
 
 #endif

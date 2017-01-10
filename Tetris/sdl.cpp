@@ -105,7 +105,39 @@ int SDL::IsKeyDown (int pKey)
 	return mKeytable[pKey];
 }
 
-								
+//sounds
+int SDL::playEffect(Mix_Chunk *effect)
+{
+	if (Mix_PlayChannel(-1, effect, 0) == -1)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int SDL::musicOnOff()
+{
+	if (Mix_PlayingMusic() == 0)
+	{
+		if (Mix_PlayMusic(music, -1) == -1)
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		if (Mix_PausedMusic() == 1)
+		{
+			Mix_ResumeMusic();
+		}
+		else
+		{
+			Mix_PauseMusic();
+		}
+	}
+	return 0;
+}
+
 //SDL Graphical Initialization
 int SDL::InitGraph()
 {    
@@ -119,6 +151,11 @@ int SDL::InitGraph()
 		return 1;
 	}
 
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+	{
+		return 1;
+	}
+
 	SDL_WM_SetCaption("Tetris", NULL);
 	
 	if ((mScreen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE)) == NULL)
@@ -128,16 +165,33 @@ int SDL::InitGraph()
 
 	background = SDL_LoadBMP("Resources/background.bmp");
 
-	if (background == NULL)
-		return 2;
-	else
-		apply_surface(0, 0, background, mScreen);
+	//Sound init
+	music = Mix_LoadMUS("SFX/music.wav");
+	dropS = Mix_LoadWAV("SFX/drop.wav");
+	lineS = Mix_LoadWAV("SFX/line.wav");
+	gameoverS = Mix_LoadWAV("SFX/gameover.wav");
+	gamestartS = Mix_LoadWAV("SFX/gamestart.wav");
+	rotateS = Mix_LoadWAV("SFX/rotate.wav");
+	moveS = Mix_LoadWAV("SFX/move.wav");
 
+	//Font init
 	fontTitle = TTF_OpenFont("Resources/textFont.ttf", 36);
 	fontHScor = TTF_OpenFont("Resources/textFont.ttf", 40);
 	fontScor = TTF_OpenFont("Resources/textFont.ttf", 42);
 	fontSpecial = TTF_OpenFont("Resources/specialFont.ttf", 80);
 	textColor = { 32, 32, 32 };
 	specialColor = { 255, 255, 255 };
+
+	if (background == NULL)
+		return 2;
+
+	if (dropS == NULL || lineS == NULL || gameoverS == NULL || moveS == NULL ||
+		gamestartS == NULL || rotateS == NULL || music == NULL)
+		return 2;
+	
+	if (fontTitle == NULL || fontHScor == NULL || fontScor == NULL || fontSpecial == NULL)
+		return 2;
+
+	apply_surface(0, 0, background, mScreen);
     return 0;
 }

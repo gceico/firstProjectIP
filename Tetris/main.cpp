@@ -16,6 +16,8 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	Game mGame (&mBoard, &mPieces, &mSDL, mScreenHeight);
 
+	mSDL.musicOnOff();
+
 	unsigned long mTime1 = SDL_GetTicks();
 	unsigned long mTime3 = 0;
 	char finalScore[32];
@@ -50,29 +52,42 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 		switch (mKey)
 		{
+			case (SDLK_m):
+			{
+				mSDL.musicOnOff();
+				break;
+			}
 			case (SDLK_RIGHT): 
 			{
 				if (mBoard.IsPossibleMovement (mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
+				{
 					mGame.mPosX++;
-					break;
+					mSDL.playEffect(mSDL.moveS);
+				}
+				break;
 			}
-
 			case (SDLK_LEFT): 
 			{
 				if (mBoard.IsPossibleMovement (mGame.mPosX - 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
-					mGame.mPosX--;	
+				{
+					mGame.mPosX--;
+					mSDL.playEffect(mSDL.moveS);
+				}
 				break;
 			}
-
 			case (SDLK_DOWN):
 			{
 				if (mBoard.IsPossibleMovement (mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
-					mGame.mPosY++;	
+				{
+					mGame.mPosY++;
+					mSDL.playEffect(mSDL.moveS);
+				}
 				break;
 			}
-
 			case (SDLK_x):
 			{
+				mSDL.playEffect(mSDL.dropS);
+
 				// Check collision from up to down
 				while (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation)) 
 				{
@@ -81,10 +96,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	
 				mBoard.StorePiece (mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
 
-				mBoard.DeletePossibleLines ();
+				if (mBoard.DeletePossibleLines())
+				{
+					mSDL.playEffect(mSDL.lineS);
+				}
 
 				if (mBoard.IsGameOver())
 				{
+					mSDL.playEffect(mSDL.gameoverS);
 					while (mTime3 < 1000)
 					{
 						mTime3 = SDL_GetTicks();
@@ -103,8 +122,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			case (SDLK_z):
 			{
 				if (mBoard.IsPossibleMovement (mGame.mPosX, mGame.mPosY, mGame.mPiece, (mGame.mRotation + 1) % 4))
+				{
+					mSDL.playEffect(mSDL.rotateS);
 					mGame.mRotation = (mGame.mRotation + 1) % 4;
-
+				}
 				break;
 			}
 		}
@@ -123,10 +144,15 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			{
 				mBoard.StorePiece (mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
 
-				mBoard.DeletePossibleLines ();
+				if (mBoard.DeletePossibleLines())
+				{
+					mSDL.playEffect(mSDL.lineS);
+				}
 
 				if (mBoard.IsGameOver())
 				{
+					mSDL.musicOnOff();
+					mSDL.playEffect(mSDL.gameoverS);
 					while (mTime3 < 1000)
 					{
 						mTime3 = SDL_GetTicks();

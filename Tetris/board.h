@@ -26,7 +26,7 @@ public:
 	bool IsFreeBlock			(int pX, int pY);
 	bool IsPossibleMovement		(int pX, int pY, int pPiece, int pRotation);
 	void StorePiece				(int pX, int pY, int pPiece, int pRotation);
-	void DeletePossibleLines	();
+	bool DeletePossibleLines	();
 	bool IsGameOver				();
 
 private:

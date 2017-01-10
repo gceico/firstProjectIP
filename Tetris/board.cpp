@@ -101,12 +101,14 @@ void Board::DeleteLine (int pY)
 		{
 			mBoard[i][j] = mBoard[i][j-1];
 		}
-	}	
+	}
+
 }
 						
 //Delete more lines
-void Board::DeletePossibleLines ()
+bool Board::DeletePossibleLines ()
 {
+	bool wasDeleted = false;
 	for (int j = 0; j < BOARD_HEIGHT; j++)
 	{
 		int i = 0;
@@ -116,8 +118,13 @@ void Board::DeletePossibleLines ()
 			i++;
 		}
 
-		if (i == BOARD_WIDTH) DeleteLine (j);
+		if (i == BOARD_WIDTH)
+		{
+			DeleteLine(j);
+			wasDeleted = true;
+		}
 	}
+	return wasDeleted;
 }
 
 
