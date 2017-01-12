@@ -9,6 +9,7 @@
 #define BOARD_HEIGHT 20
 #define PIECE_BLOCKS 5
 #define TOP_SCORES 5
+#define MULTIPLY 10
 
 class Board
 {
@@ -27,7 +28,7 @@ public:
 	bool IsFreeBlock			(int pX, int pY);
 	bool IsPossibleMovement		(int pX, int pY, int pPiece, int pRotation);
 	void StorePiece				(int pX, int pY, int pPiece, int pRotation);
-	bool DeletePossibleLines	();
+	int DeletePossibleLines	();
 	bool IsGameOver				();
 
 private:

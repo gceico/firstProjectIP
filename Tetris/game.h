@@ -8,7 +8,7 @@
 
 #define WAIT_TIME 700
 #define WAIT_FPS 50
-enum gameState { MENU, PLAY, LEADER };
+enum gameState { MENU, PLAY, LEADER, HELP, QUIT, RESTART, OVER };
 //Game
 class Game
 {

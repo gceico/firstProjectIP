@@ -36,15 +36,16 @@ public:
 	int Getkey				();
 	int IsKeyDown			(int pKey);
 	void UpdateScreen		();
+	void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
 
 	SDL_Surface *mScreen;
 	SDL_Surface *background;
 	SDL_Surface *menu;
 	SDL_Surface *leaderBoard;
-	SDL_Surface *playAgain;
-	SDL_Surface	*exitGame;
+	SDL_Surface	*help;
 
 	void DrawMenu();
+	void DrawHelp();
 	void DrawLeaderBoard();
 
 	TTF_Font *fontTitle;

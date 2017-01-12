@@ -10,68 +10,128 @@ Board mBoard(&mPieces, mScreenHeight);
 Game mGame(&mBoard, &mPieces, &mSDL, mScreenHeight);
 
 unsigned long mTime1 = SDL_GetTicks();
-unsigned long mTime3 = 0;
 
 void startGame() //Init Objects
 {
-
-	new(&mSDL) SDL();
-	int mScreenHeight = mSDL.GetScreenHeight();
-
 	new(&mBoard) Board(&mPieces, mScreenHeight);
 	new(&mGame)	 Game(&mBoard, &mPieces, &mSDL, mScreenHeight);
 
-	unsigned long mTime1 = SDL_GetTicks();
-	unsigned long mTime3 = 0;
+	mTime1 = SDL_GetTicks();
+}
+
+void checkInput (int mKey)
+{
+	switch (mKey)
+	{
+		case (SDLK_s) :
+		{
+						  mSDL.musicOnOff();
+						  break;
+		}
+		case (SDLK_r) :
+		{
+						  mBoard.updateScore();
+						  mBoard.updateFile();
+						  mGame.mGameState = RESTART;
+						  break;
+
+		}
+		case(SDLK_p) :
+		{
+						 mGame.mGameState = PLAY;
+						 break;
+		}
+		case(SDLK_h) :
+		{
+						 mGame.mGameState = HELP;
+						 break;
+		}
+		case(SDLK_l) :
+		{
+						 mGame.mGameState = LEADER;
+						 break;
+		}
+		case(SDLK_m) :
+		{
+						 mGame.mGameState = MENU;
+						 break;
+		}
+		case(SDLK_ESCAPE) :
+		{
+						mGame.mGameState = QUIT;
+						break;
+		}
+		default :
+		{
+			break;
+		}
+	}
 }
 
 void RUN()
 {
 	startGame();
-	mSDL.musicOnOff();
+
+	if (Mix_PlayingMusic() == 0)
+	{
+		mSDL.musicOnOff();
+	}
+
+	if (Mix_PausedMusic())
+	{
+		Mix_PausedMusic();
+	}
+
+	else
+	{
+		Mix_ResumeMusic();
+	}
+	
 	char finalScore[32];
 	char highScore[32];
 	int sprintInt;
 	int xPosHS = 0;
 	int yPosHS = 0;
 
-	while (!mSDL.IsKeyDown(SDLK_ESCAPE))
+	while (mGame.mGameState != QUIT)
 	{
 		//MENU STATE
+		if (mGame.mGameState == RESTART)
+		{
+			RUN();
+		}
+
+		if (mGame.mGameState == OVER)
+		{
+			mSDL.DrawString(100, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
+			mSDL.UpdateScreen();
+			Mix_PauseMusic();
+			mSDL.playEffect(mSDL.gameoverS);
+			while (mGame.mGameState == OVER)
+			{
+				int mKey = mSDL.Pollkey();
+				checkInput(mKey);
+			}
+		}
+
 		if (mGame.mGameState == MENU)
 		{
 			mSDL.DrawMenu();
 			while (mGame.mGameState == MENU)
 			{
-				int mKeyMenu = mSDL.Pollkey();
-				switch (mKeyMenu)
-				{
-				case (SDLK_s) :
-				{
-								  mSDL.musicOnOff();
-								  break;
-				}
-				case (SDLK_r) :
-				{
-								  RUN();
-								  break;
-				}
-				case(SDLK_p) :
-				{
-								 mGame.mGameState = PLAY;
-								 break;
-				}
-				case(SDLK_l) :
-				{
-								 mGame.mGameState = LEADER;
-								 break;
-				}
-				case(SDLK_ESCAPE) :
-				{
-								exit(0);
-								break;
-				}
-				}
+				int mKey = mSDL.Pollkey();
+				checkInput(mKey);
+			}
+		}
+
+		//HELP STATE
+		if (mGame.mGameState == HELP)
+		{
+			mSDL.DrawHelp();
+			while (mGame.mGameState == HELP)
+			{
+				int mKey = mSDL.Pollkey();
+				checkInput(mKey);
 			}
 		}
 
@@ -88,35 +148,13 @@ void RUN()
 					yPosHS += 60;
 				else
 					yPosHS = 140;
-
 			}
+
 			mSDL.UpdateScreen();
 			while (mGame.mGameState == LEADER)
 			{
-				int mKeyLeader = mSDL.Pollkey();
-				switch (mKeyLeader)
-				{
-				case (SDLK_s) :
-				{
-								  mSDL.musicOnOff();
-								  break;
-				}
-				case(SDLK_p) :
-				{
-								 mGame.mGameState = PLAY;
-								 break;
-				}
-				case(SDLK_m) :
-				{
-								 mGame.mGameState = MENU;
-								 break;
-				}
-				case(SDLK_ESCAPE) :
-				{
-								exit(0);
-								break;
-				}
-				}
+				int mKey = mSDL.Pollkey();
+				checkInput(mKey);
 			}
 		}
 
@@ -127,36 +165,16 @@ void RUN()
 			mGame.DrawScene();
 
 			sprintInt = sprintf_s(finalScore, "%d", mBoard.finalScore);
-			for (int i = 0; i < TOP_SCORES; i++)
-			{
-				mSDL.DrawString(77, 125, "TOP 5", mSDL.fontTitle, mSDL.textColor);
-				sprintInt = sprintf_s(highScore, "%d", mBoard.highScore[i]);
-				mSDL.DrawString(90, yPosHS, highScore, mSDL.fontHScor, mSDL.textColor);
-				if (i < TOP_SCORES - 1)
-					yPosHS += 30;
-				else
-					yPosHS = 160;
-
-			}
 
 			mSDL.DrawString(480, 115, "SCOR", mSDL.fontScor, mSDL.textColor);
 			mSDL.DrawString(490, 155, finalScore, mSDL.fontScor, mSDL.textColor);
 			mSDL.UpdateScreen();
 
 			int mKey = mSDL.Pollkey();
-
+			checkInput(mKey);
 			switch (mKey)
 			{
-				case (SDLK_s):
-				{
-					mSDL.musicOnOff();
-					break;
-				}
-				case (SDLK_m):
-				{
-					mGame.mGameState = MENU;
-					break;
-				}
+				
 				case (SDLK_RIGHT):
 				{
 					if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
@@ -195,35 +213,16 @@ void RUN()
 
 					mBoard.StorePiece(mGame.mPosX, mGame.mPosY - 1, mGame.mPiece, mGame.mRotation);
 
-					if (mBoard.DeletePossibleLines())
+					if (mBoard.DeletePossibleLines() > 0)
 					{
 						mSDL.playEffect(mSDL.lineS);
 					}
 
 					if (mBoard.IsGameOver())
 					{
-						mTime3 = SDL_GetTicks();
-						mSDL.DrawString(100, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
-						mSDL.UpdateScreen();
-						mSDL.musicOnOff();
-						mSDL.playEffect(mSDL.gameoverS);
-
-						while (!mSDL.IsKeyDown(SDLK_ESCAPE))
-						{
-							int mKeyOver = mSDL.Pollkey();
-							switch (mKeyOver)
-							{
-							case(SDLK_r):
-							{
-								RUN();
-								break;
-							}
-							}
-						}
-						mSDL.Getkey();
-						exit(0);
+						mGame.mGameState = OVER;
+	
 					}
-
 					mGame.CreateNewPiece();
 					break;
 				}
@@ -235,13 +234,6 @@ void RUN()
 						mSDL.playEffect(mSDL.rotateS);
 						mGame.mRotation = (mGame.mRotation + 1) % 4;
 					}
-					break;
-				}
-				case(SDLK_ESCAPE) :
-				{
-					mBoard.updateScore();
-					mBoard.updateFile();
-					exit(0);
 					break;
 				}
 			}
@@ -265,7 +257,7 @@ void RUN()
 				{
 					mBoard.StorePiece(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
 
-					if (mBoard.DeletePossibleLines())
+					if (mBoard.DeletePossibleLines() > 0)
 					{
 						mSDL.playEffect(mSDL.lineS);
 					}
@@ -273,26 +265,7 @@ void RUN()
 					if (mBoard.IsGameOver())
 					{
 
-						mSDL.musicOnOff();
-						mSDL.playEffect(mSDL.gameoverS);
-						mTime3 = SDL_GetTicks();
-						mSDL.DrawString(110, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
-						mSDL.UpdateScreen();
-
-						while (!mSDL.IsKeyDown(SDLK_ESCAPE))
-						{
-							int mKeyOver = mSDL.Pollkey();
-							switch (mKeyOver)
-							{
-							case(SDLK_r):
-							{
-								RUN();
-								break;
-							}
-							}
-						}
-						mSDL.Getkey();
-						exit(0);
+						mGame.mGameState = OVER;
 					}
 
 					mGame.CreateNewPiece();
@@ -307,5 +280,7 @@ void RUN()
 int main()
 {
 	RUN();
+	mBoard.updateScore();
+	mBoard.updateFile();
 	return 0;
 }

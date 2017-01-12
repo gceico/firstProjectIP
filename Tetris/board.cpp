@@ -62,7 +62,7 @@ void Board::InitBoard()
 //Store a piece in the board by filling the blocks
 void Board::StorePiece (int pX, int pY, int pPiece, int pRotation)
 {
-	finalScore += 1;
+	finalScore += 5;
 
 	for (int i1 = pX, i2 = 0; i1 < pX + PIECE_BLOCKS; i1++, i2++)
 	{
@@ -81,8 +81,6 @@ bool Board::IsGameOver()
 	{
 		if (mBoard[i][0] == POS_FILLED)
 		{
-			updateScore();
-			updateFile();
 			return true;
 		}
 	}
@@ -92,8 +90,6 @@ bool Board::IsGameOver()
 //Delete line
 void Board::DeleteLine (int pY)
 {
-	finalScore += 10;
-
 	for (int j = pY; j > 0; j--)
 	{
 		for (int i = 0; i < BOARD_WIDTH; i++)
@@ -105,9 +101,9 @@ void Board::DeleteLine (int pY)
 }
 						
 //Delete more lines
-bool Board::DeletePossibleLines ()
+int Board::DeletePossibleLines ()
 {
-	bool wasDeleted = false;
+	int wasDeleted = 0;
 	for (int j = 0; j < BOARD_HEIGHT; j++)
 	{
 		int i = 0;
@@ -120,8 +116,12 @@ bool Board::DeletePossibleLines ()
 		if (i == BOARD_WIDTH)
 		{
 			DeleteLine(j);
-			wasDeleted = true;
+			wasDeleted++;
 		}
+	}
+	if (wasDeleted >= 1)
+	{
+		finalScore += wasDeleted * MULTIPLY + (wasDeleted - 1) * MULTIPLY;
 	}
 	return wasDeleted;
 }

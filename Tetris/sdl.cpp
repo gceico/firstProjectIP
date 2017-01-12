@@ -8,7 +8,7 @@ static Uint32 mColors [COLOR_MAX] = {0x000000ff, 0xffffffff, 0xed2d0eff, 0x0fe00
 //Aditional surfaces
 SDL_Surface *background = NULL;
 
-void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
+void SDL::apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
 	SDL_Rect offset;
 
@@ -112,6 +112,12 @@ void SDL::DrawMenu()
 	UpdateScreen();
 }
 
+void SDL::DrawHelp()
+{
+	apply_surface(0, 0, help, mScreen);
+	UpdateScreen();
+}
+
 void SDL::DrawLeaderBoard()
 {
 	apply_surface(0, 0, leaderBoard, mScreen);
@@ -180,8 +186,7 @@ int SDL::InitGraph()
 
 	background = SDL_LoadBMP("Resources/background.bmp");
 	menu = SDL_LoadBMP("Resources/menu.bmp");
-	playAgain = SDL_LoadBMP("Resources/playagain.bmp");
-	exitGame = SDL_LoadBMP("Resources/exitgame.bmp");
+	help = SDL_LoadBMP("Resources/help.bmp");
 	leaderBoard = SDL_LoadBMP("Resources/leaderboard.bmp");
 	//Sound init
 	music = Mix_LoadMUS("SFX/music.wav");
@@ -201,7 +206,7 @@ int SDL::InitGraph()
 	textColor = { 32, 32, 32 };
 	specialColor = { 255, 255, 255 };
 
-	if (background == NULL || menu == NULL || playAgain == NULL || exitGame == NULL)
+	if (background == NULL || menu == NULL || help == NULL || playAgain == NULL || exitGame == NULL)
 		return 2;
 
 	if (dropS == NULL || lineS == NULL || gameoverS == NULL || moveS == NULL ||
