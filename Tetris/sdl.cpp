@@ -1,5 +1,6 @@
 #include "sdl.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 
@@ -30,7 +31,10 @@ void SDL::DrawString(int x, int y, char text[], TTF_Font *font, SDL_Color color)
 	SDL_Surface *source = NULL;
 	source = TTF_RenderText_Solid(font, text, color);
 	if (source == NULL)
+	{
+		cout << "Couldn't draw text" << endl;
 		return;
+	}
 
 	apply_surface(x, y, source, mScreen);
 
@@ -129,6 +133,7 @@ int SDL::playEffect(Mix_Chunk *effect)
 {
 	if (Mix_PlayChannel(-1, effect, 0) == -1)
 	{
+		cout << "Couldn't play the effects" << endl;
 		return 1;
 	}
 	return 0;
@@ -162,16 +167,19 @@ int SDL::InitGraph()
 {    
 	if ( SDL_Init(SDL_INIT_EVERYTHING) < 0 )
 	{
+		cout << "Couldn't init SDL" << endl;
 		return 1;
 	}
 
 	if (TTF_Init() < 0)
 	{
+		cout << "Couldn't load TTF" << endl;
 		return 1;
 	}
 
-	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 8192) < 0)
 	{
+		cout << "Couldn't load a sound" << endl;
 		return 1;
 	}
 
@@ -179,6 +187,7 @@ int SDL::InitGraph()
 	
 	if ((mScreen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE)) == NULL)
 	{
+		cout << "Couldn't load a video" << endl;
 		return 2;
 	}
 
@@ -206,15 +215,20 @@ int SDL::InitGraph()
 	textColor = { 32, 32, 32 };
 	specialColor = { 255, 255, 255 };
 
-	if (background == NULL || menu == NULL || help == NULL || playAgain == NULL || exitGame == NULL)
+	if (background == NULL || menu == NULL || help == NULL) {
+		cout << "Couldn't load the images" << endl;
 		return 2;
+	}
 
-	if (dropS == NULL || lineS == NULL || gameoverS == NULL || moveS == NULL ||
-		gamestartS == NULL || rotateS == NULL || music == NULL)
+	if (dropS == NULL || lineS == NULL || gameoverS == NULL || moveS == NULL || gamestartS == NULL || rotateS == NULL || music == NULL) {
+		cout << "Couldn't load the sounds" << endl;
 		return 2;
+	}
 	
-	if (fontTitle == NULL || fontHScor == NULL || fontScor == NULL || fontSpecial == NULL || fontLeader == NULL)
+	if (fontTitle == NULL || fontHScor == NULL || fontScor == NULL || fontSpecial == NULL || fontLeader == NULL) {
+		cout << "Couldn't load the fonts" << endl;
 		return 2;
+	}
 
 	apply_surface(0, 0, background, mScreen);
     return 0;

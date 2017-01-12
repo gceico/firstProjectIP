@@ -1,4 +1,5 @@
 #include "game.h"
+#include "iostream"
 using namespace std;
 SDL mSDL;
 int mScreenHeight = mSDL.GetScreenHeight();
@@ -94,15 +95,17 @@ void RUN()
 	int yPosHS = 0;
 
 	while (mGame.mGameState != QUIT)
-	{
-		//MENU STATE
+	{   
+		//RESTART STATE
 		if (mGame.mGameState == RESTART)
-		{
+		{   
+			cout << "Enter restart state" << endl;
 			RUN();
 		}
-
+		//OVER STATE
 		if (mGame.mGameState == OVER)
-		{
+		{   
+			cout << "Enter over state" << endl;
 			mSDL.DrawString(100, 0, "GAME OVER", mSDL.fontSpecial, mSDL.specialColor);
 			mSDL.UpdateScreen();
 			Mix_PauseMusic();
@@ -113,9 +116,10 @@ void RUN()
 				checkInput(mKey);
 			}
 		}
-
+		//MENU STATE
 		if (mGame.mGameState == MENU)
 		{
+			cout << "Enter menu state" << endl;
 			mSDL.DrawMenu();
 			while (mGame.mGameState == MENU)
 			{
@@ -127,6 +131,7 @@ void RUN()
 		//HELP STATE
 		if (mGame.mGameState == HELP)
 		{
+			cout << "Enter help state" << endl;
 			mSDL.DrawHelp();
 			while (mGame.mGameState == HELP)
 			{
@@ -138,6 +143,7 @@ void RUN()
 		//LEADER STATE
 		if (mGame.mGameState == LEADER)
 		{
+			cout << "Enter leader state" << endl;
 			mSDL.DrawLeaderBoard();
 			yPosHS = 140;
 			for (int i = 0; i < TOP_SCORES; i++)
@@ -159,22 +165,25 @@ void RUN()
 		}
 
 		//PLAY STATE
-		while (mGame.mGameState == PLAY)
+		if (mGame.mGameState == PLAY) 
 		{
-			mSDL.ClearScreen();
-			mGame.DrawScene();
-
-			sprintInt = sprintf_s(finalScore, "%d", mBoard.finalScore);
-
-			mSDL.DrawString(480, 115, "SCOR", mSDL.fontScor, mSDL.textColor);
-			mSDL.DrawString(490, 155, finalScore, mSDL.fontScor, mSDL.textColor);
-			mSDL.UpdateScreen();
-
-			int mKey = mSDL.Pollkey();
-			checkInput(mKey);
-			switch (mKey)
+			cout << "Enter play state" << endl;
+			while (mGame.mGameState == PLAY)
 			{
-				
+				mSDL.ClearScreen();
+				mGame.DrawScene();
+
+				sprintInt = sprintf_s(finalScore, "%d", mBoard.finalScore);
+
+				mSDL.DrawString(480, 115, "SCOR", mSDL.fontScor, mSDL.textColor);
+				mSDL.DrawString(490, 155, finalScore, mSDL.fontScor, mSDL.textColor);
+				mSDL.UpdateScreen();
+
+				int mKey = mSDL.Pollkey();
+				checkInput(mKey);
+				switch (mKey)
+				{
+
 				case (SDLK_RIGHT):
 				{
 					if (mBoard.IsPossibleMovement(mGame.mPosX + 1, mGame.mPosY, mGame.mPiece, mGame.mRotation))
@@ -221,7 +230,7 @@ void RUN()
 					if (mBoard.IsGameOver())
 					{
 						mGame.mGameState = OVER;
-	
+
 					}
 					mGame.CreateNewPiece();
 					break;
@@ -236,42 +245,43 @@ void RUN()
 					}
 					break;
 				}
-			}
-
-			//Vertical movement
-			unsigned long mTime2 = SDL_GetTicks();
-
-			while ((mTime2 - mTime1) < WAIT_FPS)
-			{
-				mTime2 = SDL_GetTicks();
-			}
-			
-
-			if ((mTime2 - mTime1) > WAIT_TIME)
-			{
-				if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
-				{
-					mGame.mPosY++;
-				}
-				else
-				{
-					mBoard.StorePiece(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
-
-					if (mBoard.DeletePossibleLines() > 0)
-					{
-						mSDL.playEffect(mSDL.lineS);
-					}
-
-					if (mBoard.IsGameOver())
-					{
-
-						mGame.mGameState = OVER;
-					}
-
-					mGame.CreateNewPiece();
 				}
 
-				mTime1 = SDL_GetTicks();
+				//Vertical movement
+				unsigned long mTime2 = SDL_GetTicks();
+
+				while ((mTime2 - mTime1) < WAIT_FPS)
+				{
+					mTime2 = SDL_GetTicks();
+				}
+
+
+				if ((mTime2 - mTime1) > WAIT_TIME)
+				{
+					if (mBoard.IsPossibleMovement(mGame.mPosX, mGame.mPosY + 1, mGame.mPiece, mGame.mRotation))
+					{
+						mGame.mPosY++;
+					}
+					else
+					{
+						mBoard.StorePiece(mGame.mPosX, mGame.mPosY, mGame.mPiece, mGame.mRotation);
+
+						if (mBoard.DeletePossibleLines() > 0)
+						{
+							mSDL.playEffect(mSDL.lineS);
+						}
+
+						if (mBoard.IsGameOver())
+						{
+
+							mGame.mGameState = OVER;
+						}
+
+						mGame.CreateNewPiece();
+					}
+
+					mTime1 = SDL_GetTicks();
+				}
 			}
 		}
 	}
